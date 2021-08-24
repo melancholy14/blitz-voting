@@ -1,4 +1,6 @@
 import { AuthenticationError, Link, useMutation, Routes } from "blitz"
+import { Box, Divider, Flex, Text } from "@chakra-ui/react"
+
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import login from "app/auth/mutations/login"
@@ -12,11 +14,13 @@ export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
 
   return (
-    <div>
-      <h1>Login</h1>
-
+    <>
       <Form
         submitText="Login"
+        submitProps={{
+          width: "100%",
+          colorScheme: "teal",
+        }}
         schema={Login}
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values) => {
@@ -37,17 +41,20 @@ export const LoginForm = (props: LoginFormProps) => {
       >
         <LabeledTextField name="email" label="Email" placeholder="Email" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-        <div>
+        <Flex justifyContent="flex-end" fontSize="sm" fontStyle="italic">
           <Link href={Routes.ForgotPasswordPage()}>
             <a>Forgot your password?</a>
           </Link>
-        </div>
+        </Flex>
       </Form>
-
-      <div style={{ marginTop: "1rem" }}>
-        Or <Link href={Routes.SignupPage()}>Sign Up</Link>
-      </div>
-    </div>
+      <Divider m={4} />
+      <Flex justifyContent="flex-end">
+        <Text mr={2}>Or</Text>
+        <Box fontWeight="bolder">
+          <Link href={Routes.SignupPage()}>Sign Up</Link>
+        </Box>
+      </Flex>
+    </>
   )
 }
 
